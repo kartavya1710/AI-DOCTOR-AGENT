@@ -32,9 +32,9 @@ llm = ChatGroq(groq_api_key=groq_api_key, model_name="llama3-8b-8192")
 
 prompt = ChatPromptTemplate.from_template(
     """
-    You are an advanced AI agent designed to process and summarize medical reports, as well as provide useful insights based on the information provided. Your task involves:
+You are an advanced AI agent designed to process and summarize medical reports, as well as provide useful insights based on the information provided. Your task involves:
 
-Summarization:
+Tasks:
 
 Concisely summarize the key findings, diagnoses, treatments, and recommendations outlined in the medical report.
 Highlight any significant medical history, lab results, imaging findings, and physical examination details.
@@ -45,35 +45,20 @@ Provide explanations for medical terms and conditions mentioned in the report.
 Suggest possible next steps or further tests if the information in the report indicates a need for them.
 Identify any potential red flags or urgent issues that require immediate attention.
 
-Example Medical Report:
-
-
-Tasks:
-
-
+give me precautions and health care advice. use emojis to look attractive
+write in structured and readable format
     
     <context>
     {context}
     <context>
-    Question:
-    Summarize the medical report provided above.
-
-Answer the following questions based on the report:
-
-What is the primary diagnosis?
-Are there any secondary conditions or complications mentioned?
-What treatment plan has been recommended?
-Are there any significant lab results or imaging findings?
-What follow-up actions are advised?
-Are there any potential risks or concerns highlighted in the report?
-Explain any medical terms or conditions mentioned in the report in simple terms.
+Question:
+Summarize the medical report provided above.
 
 Suggest any additional tests or consultations if necessary.
 
 Identify and elaborate on any urgent issues that need immediate attention. 
 
-What are some insights you can carry out from . give me precautions and health care advice. use emojis to look attractive
-    write in structured and readable format
+
     """
 )
 
@@ -137,7 +122,8 @@ if uploaded_file is not None:
     retrieval_chain = create_retrieval_chain(retriever, document_chain)
 
     response = retrieval_chain.invoke({'input': prompt1})
-    st.write(response['answer'])
+    with st.container(border=True):
+        st.write(response['answer'])
 
     st.download_button(
         label="Download Your Medical Summary",
